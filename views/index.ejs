@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <link href="/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="selectionArea">
+      <label for="cars">Paper Code</label>
+      <select id="cars" name="cars">
+        <option value="HT">hindustan time</option>
+        <option value="TT">the telegraph</option>
+        <option value="NB">navbharat</option>
+        <option value="TOI">times of india</option>
+      </select>
+      <label for="paperName">Paper name or the date of the paper</label>
+      <input type="text" id="paperName" />
+      <label for="pageNumber">Page Number</label>
+      <input type="number" id="pageNumber" />
+      <span>Upload Data to:<span id="toPath"></span></span>
+    </div>
+    <div class="submitArea">
+      <img id="imagePreviewer" class="preview" />
+      <input id="imageFile" type="file" />
+      <button id="submitBtn">Upload</button>
+    </div>
+    <script>
+      let pathToUpload = "";
+      const NEWSPAPERS = [
+        "hindustantimes",
+        "thetelegraph",
+        "navbharat",
+        "timesofindia",
+      ];
+
+      const singleFile = document.getElementById("imageFile");
+      const upload = document.getElementById("submitBtn");
+      const carsId = document.getElementById("cars");
+      const path = document.getElementById("toPath");
+      const imagePreview = document.getElementById("imagePreviewer");
+      const paperName = document.getElementById("paperName");
+      const pageNumber = document.getElementById("pageNumber");
+
+      singleFile.addEventListener("change", (e) => {
+        const file = singleFile.files[0];
+        console.log(file);
+        if (file) {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = function (e) {
+            //console.log(e.target);
+            imagePreview.src = e.target.result;
+          };
+        }
+      });
+
+      carsId.addEventListener("change", (e) => {
+        // console.log(e.target.value);
+        // console.log(carsId.selectedIndex);
+        pathToUpload = e.target.value;
+        toPath.innerText = NEWSPAPERS[carsId.selectedIndex];
+      });
+
+      upload.addEventListener("click", (e) => {
+        const formData = new FormData();
+        formData.append("singleFile", singleFile.files[0]);
+        const paperNameValue = paperName.value;
+        const pageNumberValue = pageNumber.value;
+        console.log(paperNameValue, pageNumberValue);
+        //update the url where we'll send the request to
+        fetch(
+          `http://localhost:9005/api/v1/upload/${pathToUpload}?paperName=${paperNameValue}&pageNumber=${pageNumberValue}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        ).then((data) => {
+          console.log(data);
+        });
+      });
+      //formData.append("singleFile", singleFile.files[0]);
+
+      //update the url where we'll send the request to
+      /*fetch("http://localhost:9005/api/v1/upload", {
+        method: "POST",
+        body: formData,
+      });*/
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+.selectionArea {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.submitArea {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.preview {
+  height: 300px;
+  width: 800px;
+}
