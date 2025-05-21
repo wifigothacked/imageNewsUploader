@@ -43,4 +43,4 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/upload", upload.single("singleFile"), uploader);
 
-app.listen(9005, () => console.log("listening on 9005"));
+app.listen(process.env.PORT || 4000, () => console.log("listening on 9005"));

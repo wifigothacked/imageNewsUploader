@@ -67,7 +67,7 @@
         console.log(paperNameValue, pageNumberValue);
         //update the url where we'll send the request to
         fetch(
-          `http://localhost:9005/api/v1/upload/${pathToUpload}?paperName=${paperNameValue}&pageNumber=${pageNumberValue}`,
+          `${process.env.BACKEND_URL}/api/v1/upload/${pathToUpload}?paperName=${paperNameValue}&pageNumber=${pageNumberValue}`,
           {
             method: "POST",
             body: formData,
