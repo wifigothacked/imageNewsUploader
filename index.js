@@ -4,20 +4,20 @@ import { v2 as cloudinary } from "cloudinary";
 import multer from "multer";
 import cors from "cors";
 import uploader from "./routes/uploader.js";
+import dotenv from "dotenv";
 
 const app = express();
+dotenv.config();
 
 cloudinary.config({
-  cloud_name: "dmmkcjyid",
-  api_key: "658848697291289",
-  api_secret: "bvnWXCCnCNORKynRsbFV796KY0c", // Click 'View API Keys' above to copy your API secret
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY_CLOUDINARY,
+  api_secret: process.env.API_SECRET_CLOUDINARY, // Click 'View API Keys' above to copy your API secret
 });
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(
-      `mongodb+srv://root:1234@cluster0.dgvfz.mongodb.net/digitalNewspaper?retryWrites=true&w=majority&appName=Cluster0`
-    );
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
     console.log(`MongoDB Connected: {conn.connection.host}`);
   } catch (error) {
     console.error(error.message);
